@@ -904,6 +904,60 @@ def grails(parser, xml_parent, data):
         data.get('refresh-dependencies', 'false')).lower()
 
 
+def groovy(parser, xml_parent, data):
+    """yaml: groovy
+
+    Adds the ability to directly execute Groovy code.
+    The system groovy script runs inside Jenkins master's JVM
+    thus having access to all the internal objects of Jenkins.
+    The plain groovy script runs in a forked JVM on the slave
+    where the build is run.
+    Requires the Jenkins `Groovy plugin.
+    <https://wiki.jenkins-ci.org/display/JENKINS/Groovy+plugin>`_
+
+    :arg list system: list of system groovy scripts to run
+
+        :System: * **command** (`str`) -- Command to run, only one of command
+                     or script can be specified (defualt '')
+                 * **file** (`str`) -- File to run, only one of command or
+                     script can be specified (default '')
+                 * **bindings** (`list`) -- List of variable bindings
+                     in properties file format (default '')
+                 * **classpath** (`str`) -- Script classpath (default '')
+    :arg list groovy: list of groovy scripts to run
+
+        :Groovy: * **version** (`str`) -- The groovy installation to use
+                 * **command** (`str`) -- Command to run, only one of command
+                     or script can be specified (default '')
+                 * **file** (`str`) -- File to run, only one of command or
+                     script can be specified (default '')
+                 * **groovy-parameters** (`list`) -- Parameters for the
+                     Groovy executable
+                 * **classpath** (`list`) -- Script classpath.  Each line is one
+                     classpath item (default '')
+                 * **script-parameters** (`list`) -- Parameters passed to the
+                     script (default '')
+                 * **properties** (`list`) -- Instead of passing properties
+                     with -D parameter you can define them here (default '')
+                 * **java-opts** (`str`) -- This line is appended to JAVA_OPTS
+
+    Example::
+
+      builders:
+        - groovy:
+          - system:
+              command: println "Hello World"
+              bindings:
+                - "key=value"
+                - "foo=bar"
+          - groovy:
+              file: file.groovy
+              groovy-parameters:
+                - "key=value"
+                - "foo=bar"
+    """
+
+
 class Builders(jenkins_jobs.modules.base.Base):
     sequence = 60
 
