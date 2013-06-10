@@ -54,6 +54,8 @@ def git(self, xml_parent, data):
     :arg str refspec: refspec to fetch
     :arg str name: name to fetch
     :arg list(str) branches: list of branch specifiers to build
+    :arg list(str) included-regions: list of file/folders to include
+    :arg list(str) excluded-regions: list of file/folders to exclude
     :arg dict merge:
         :merge:
             * **remote** (`string`) - name of repo that contains branch to
@@ -115,7 +117,6 @@ def git(self, xml_parent, data):
         (None, 'submoduleCfg', '', {'class': 'list'}),
         ('basedir', 'relativeTargetDir', ''),
         (None, 'reference', ''),
-        (None, 'excludedRegions', ''),
         (None, 'excludedUsers', ''),
         (None, 'gitConfigName', ''),
         (None, 'gitConfigEmail', ''),
@@ -140,6 +141,12 @@ def git(self, xml_parent, data):
     for branch in branches:
         bspec = XML.SubElement(xml_branches, 'hudson.plugins.git.BranchSpec')
         XML.SubElement(bspec, 'name').text = branch
+    if 'included-regions' in data:
+        include_string = '\n'.join(data['included-regions'])
+        XML.SubElement(scm, 'includedRegions').text = include_string
+    if 'excluded-regions' in data:
+        exclude_string = '\n'.join(data['excluded-regions'])
+        XML.SubElement(scm, 'excludedRegions').text = exclude_string
     if 'merge' in data:
         merge = data['merge']
         name = merge.get('remote', 'origin')
