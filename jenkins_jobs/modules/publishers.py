@@ -2042,6 +2042,33 @@ def robot(parser, xml_parent, data):
         XML.SubElement(other_files, 'string').text = str(other_file)
 
 
+def ansi_color(parser, xml_parent, data):
+    """yaml: ansi-color
+
+    Adds support for ANSI escape sequences, including color, to
+    Console Output.  Requires the Jenkins `AnsiColor Plugin.
+    <https://wiki.jenkins-ci.org/display/JENKINS/AnsiColor+Plugin>`_
+
+    :arg dict color-map: The ANSI color map to use
+    :color-map values:
+      * **xterm**
+      * **vga**
+      * **css**
+
+    Example::
+
+       - publishers:
+         - ansi-color:
+             color-map: css
+    """
+    ansi = XML.SubElement(xml_parent, 'hudson.plugins.ansicolor.'
+                          'AnsiColorBuildWrapper')
+    color_map = data.get('color-map', 'xterm')
+    if color_map not in {'xterm', 'vga', 'css'}:
+        raise Exception("color-map must be one of xterm, vga, or css")
+    XML.SubElement(ansi, 'colorMapName').text = color_map
+
+
 class Publishers(jenkins_jobs.modules.base.Base):
     sequence = 70
 

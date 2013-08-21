@@ -145,6 +145,7 @@ setuptools.setup(
             'post-tasks=jenkins_jobs.modules.publishers:post_tasks',
             'xml-summary=jenkins_jobs.modules.publishers:xml_summary',
             'robot=jenkins_jobs.modules.publishers:robot',
+            'ansi-color=jenkins_jobs.modules.publishers:ansi_color',
         ],
         'jenkins_jobs.scm': [
             'git=jenkins_jobs.modules.scm:git',
