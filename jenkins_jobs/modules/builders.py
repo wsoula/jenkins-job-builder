@@ -3387,3 +3387,36 @@ def build_name_setter(parser, xml_parent, data):
         data.get('macro', False)).lower()
     XML.SubElement(build_name_setter, 'macroFirst').text = str(
         data.get('macro-first', False)).lower()
+
+def checkmarx(parser, xml_parent, data):
+    """yaml: checkmarx
+    This pluygin adds an ability to perform automatic code scan by Checkmarx
+    server and shows results summary and trend in Jenkins interface
+    Requires the Jenkins :jenkins-wiki:`Checkmarx CxSAST Plugin
+    <Checkmarx+CxSAST+Plugin>`.
+
+    :arg str name: Checkmarx project name
+    :arg str team: Fully qualified team name for the project
+    :arg str preset: Scan preset
+    :arg str exclude-folders: Comma separated list of folder to exclude from scan (Should be array)
+    :arg str include-exclude-patterns: Comma separated list of include or exclude wildcard patterns.  Exclude patterns start with exclamation mark. (Should be array)
+    :arg bool incremental: Run incremental scan instead of full scan (default false)
+    :arg str source-encoding: Source code character encoding
+    :arg str comment: Free text comment.  May reference build parameters.
+    :arg bool skip-scm: Skip scan if triggered by SCM changes
+    :arg dict job-status: one of global, failure, unstable (default global)
+    :arg bool synchronous: Wait for checkmarx server scan to complete and retrieve results and optionall check thresholds (default true)
+    :arg bool threshold: Enable vulnerability threshold (default false)(This is not a paremeter, set if below are set)
+    :arg dict build-status: One of failure or unstable, when the results exceed the threshold
+    :arg number high-severity-threshold: High severity vulnerability threshold (default 0)
+    :arg number medium-severity-threshold: Medium severity vulnerability threshold (defualt 0)
+    :arg number low-severity-threshold: Low severity vulnerability threshold (defualt 0)
+    :arg bool generate-pdf-report: Downloads a PDF report with scan results from the checkmarx server (default false)
+    :arg str open-source-includes: Path and extensions of the open source libraries of this project to include.  Comma separated (Should be array)
+    :arg str open-source-excludes: Path and extensions of the open source libraries of this project to ignore.  Comma separated (Should be array)
+
+    Example:
+
+    .. literalinclude:: /../../tests/builders/fixtures/checkmarx001.yaml
+    .. literalinclude:: /../../tests/builders/fixtures/checkmarx002.yaml
+    """
